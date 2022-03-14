@@ -32,7 +32,6 @@ class RedirectIfAuthenticated
         //     }
         // }
 
-        // return $next($request);
         if(Auth::guard(self::GUARD_USER)->check() && $request->routeIs('users.*')){
             return redirect(RouteServiceProvider::HOME);
         }
@@ -42,5 +41,6 @@ class RedirectIfAuthenticated
         if(Auth::guard(self::GUARD_ADMIN)->check() && $request->routeIs('admin.*')){
             return redirect(RouteServiceProvider::ADMIN_HOME);
         }
+        return $next($request);
     }
 }
