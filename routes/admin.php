@@ -23,16 +23,16 @@ use App\Http\Controllers\Admin\OwnersController;
 |
 */
 
-Route::get('/', function () {
-    return view('admin.welcome');
-});
+// Route::get('/', function () {
+//     return view('admin.welcome');
+// });
 
 // Route::controller(OwnersController::class)->group(function () {
 //     Route::get('/orders/{id}', 'show');
 //     Route::post('/orders', 'store');
 // })->middleware('auth:owner');
 
-Route::resource('owners',OwnersController::class)->middleware('auth:admin');
+Route::resource('owners',OwnersController::class)->middleware('auth:admin')->except(['show']);
 
 Route::prefix('expired-owners')->
     middleware('auth:admin')->group(function(){
