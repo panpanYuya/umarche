@@ -6,9 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UploadImageRequest;
-use InterventionImage;
+use App\Services\ImageService;
 
 class ShopController extends Controller
 {
@@ -64,17 +63,8 @@ class ShopController extends Controller
         $imageFile = $request->image;
         //isValidはアップロードができているかを確認している
         if(!is_null($imageFile) && $imageFile->isValid()){
-            // Storage::putFile('public/shops', $imageFile); リサイズなしであればputFileメソッドで実行できる
-            //Interventionを使用するとfileをファイルから画像に変換してしまうので、putFileが適応できなくなってしまう。
+            $fileNameToStore = ImageService::upload($imageFile, "shops");
 
-            $fileName = uniqid(rand().'_');
-            $extension = $imageFile->extension();
-            $fileNameToStore = $fileName. '.' .$extension;
-
-            //画像をリサイズする(InterventionImageは正しく動いているので、赤線が出ていて問題ないです。)
-            $resizedImage = InterventionImage::make($imageFile)->resize(1920, 1080)->encode();
-
-            Storage::put('public/shops/' . $fileNameToStore, $resizedImage);
         }
 
         return redirect()->route('owner.shops.index');
