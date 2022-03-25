@@ -28,9 +28,6 @@
                                                 <td class="px-4 py-3">{{ $owner->name }}</td>
                                                 <td class="px-4 py-3">{{ $owner->email }}</td>
                                                 <td class="px-4 py-3">{{ $owner->deleted_at->diffForHumans()}}</td>
-                                                <td class="px-4 py-3">
-                                                    <button onclick="location.href='{{ route('admin.owners.edit', ['owner' => $owner->id ]) }}'" class="text-white bg-indigo-400 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-500 rounded" >編集</button>
-                                                </td>
                                                 <form id="delete_{{ $owner->id }}" method="POST" action="{{ route('admin.expired-owners.destroy', ['owner' => $owner->id ]) }}">
                                                     @csrf
                                                     <td class="px-4 py-3">
