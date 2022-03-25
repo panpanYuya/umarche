@@ -7,6 +7,7 @@ use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UploadImageRequest;
 use InterventionImage;
 
 class ShopController extends Controller
@@ -58,7 +59,7 @@ class ShopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id){
+    public function update(UploadImageRequest $request, $id){
 
         $imageFile = $request->image;
         //isValidはアップロードができているかを確認している
