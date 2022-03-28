@@ -25,7 +25,7 @@ class ImageController extends Controller
                 $imageId = (int)$imagesOwnerId; //数字として取得している
 
                 //現在ログインしているユーザーのidと一致しているかを確認。
-                if (Auth::id() !== $imageId) {
+                if ($imageId !== Auth::id()) {
                     abort(404);
                 }
             }

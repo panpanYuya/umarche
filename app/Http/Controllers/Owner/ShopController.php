@@ -24,7 +24,7 @@ class ShopController extends Controller
                 $userId = Auth::id();//数字として取得している
 
                 //現在ログインしているユーザーのidと一致しているかを確認。
-                if($userId !== $shopId){
+                if($shopId !== $userId ){
                     abort(404);
                 }
             }
