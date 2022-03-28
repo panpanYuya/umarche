@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Models\Shop;
 use App\Models\Image;
 use App\Models\Product;
-use App\Models\SecondaryCategory;
+use App\Models\PrimaryCategory;
 use App\Models\Owner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -56,7 +57,19 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $shops = Shop::where('owner_id', Auth::id())
+        ->select('id', 'name')
+        ->get();
+
+        $images = Image::where('owner_id', Auth::id())
+        ->select('id', 'title', 'filename')
+        ->orderby('updated_at', 'desc')
+        ->get();
+
+        $categories = PrimaryCategory::with('secondary')
+        ->get();
+
+        return view('owner.products.create', compact('shops', 'images', 'categories'));
     }
 
     /**
