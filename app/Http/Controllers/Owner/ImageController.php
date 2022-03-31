@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Image;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -134,6 +135,33 @@ class ImageController extends Controller
     {
         $image = Image::findOrFail($id);
         $filePath = 'public/products/' . $image->fileName;
+
+        $imageInProduct = Product::where('image1', $image->id)
+            ->orWhere('image2', $image->id)
+            ->orWhere('image3', $image->id)
+            ->orWhere('image4', $image->id)
+            ->get();
+
+        if($imageInProduct){
+            $imageInProduct->each(function($product) use($image){
+                if($product->image1 === $image->id){
+                    $product->image1 =null;
+                    $product->save();
+                }
+                if($product->image2 === $image->id){
+                    $product->image2 =null;
+                    $product->save();
+                }
+                if($product->image3 === $image->id){
+                    $product->image3 =null;
+                    $product->save();
+                }
+                if($product->image4 === $image->id){
+                    $product->image4 = null;
+                    $product->save();
+                }
+            });
+        }
 
         if(Storage::exists($filePath)){
             Storage::delete($filePath);
