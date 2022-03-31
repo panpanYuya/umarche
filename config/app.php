@@ -181,7 +181,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Class Aliases
+    | Class Aliases(別名)
     |--------------------------------------------------------------------------
     |
     | This array of class aliases will be registered when this application
@@ -232,6 +232,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'InterventionImage' => Intervention\Image\Facades\Image::class,
+        'Consts' => App\Consts\Common::class,
+        //ここに記述することでいつでも呼び出せるようになる。
 
     ],
 

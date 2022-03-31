@@ -199,10 +199,10 @@ class ProductController extends Controller
 
 
                     //在庫を追加するのか在庫を減少させるのかを判定する。
-                    if($request->type === '1'){
+                    if($request->type === \Consts::PRODUCT_LIST['add']){
                         $newQuantity = $request->quantity;
                     }
-                    if($request->type === '2'){
+                    if($request->type === \Consts::PRODUCT_LIST['reduce']){
                         $newQuantity = $request->quantity * - 1;
                     }
 
