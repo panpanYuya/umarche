@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class ProductController extends Controller
@@ -199,6 +200,7 @@ class ProductController extends Controller
 
 
                     //在庫を追加するのか在庫を減少させるのかを判定する。
+                    //vscodeでエラーが発生しているが、仕様上は問題がないため良しとする。
                     if($request->type === \Consts::PRODUCT_LIST['add']){
                         $newQuantity = $request->quantity;
                     }
@@ -239,5 +241,15 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+        Product::findOrFail($id)->delete();
+
+
+
+        return redirect()
+            ->route('owner.products.index')
+            ->with([
+                'message' => '商品を削除しました。',
+                'status' => 'alert',
+            ]);
     }
 }
