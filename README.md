@@ -6,3 +6,4 @@
     * php artisan storage:link　でstorageフォルダにリンク後、
     * storage/app/public/productsフォルダ内に保存すると表示されます。
     * (productsフォルダがない場合は作成してください。) 
+    * ショップの画像を表示する場合はstorage/app/public/shopsフォルダを作成し画像を保存してください。
