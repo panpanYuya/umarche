@@ -66,4 +66,9 @@ class Product extends Model
         return $this->hasMany(Stock::class);
     }
 
+    public function users(){
+        //withPivotで中間テーブルのquantityを取得できている。
+        return $this->belongsToMany(User::class,'carts')->withPivot(['id', 'quantity']);
+    }
+
 }
