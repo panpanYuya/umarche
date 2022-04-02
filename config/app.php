@@ -106,7 +106,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'ja_JP',
 
     /*
     |--------------------------------------------------------------------------
@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -174,12 +175,13 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\SampleServiceProvider::class
 
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Class Aliases
+    | Class Aliases(別名)
     |--------------------------------------------------------------------------
     |
     | This array of class aliases will be registered when this application
@@ -229,6 +231,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'InterventionImage' => Intervention\Image\Facades\Image::class,
+        'Consts' => App\Consts\Common::class,
+        //ここに記述することでいつでも呼び出せるようになる。
 
     ],
 
