@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\User;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,6 +55,14 @@ class CartController extends Controller
         $lineItems = [];
 
         foreach ($products as $product){
+            $quantity = '';
+            $quantity = Stock::where('product_id', $product->id)->sum('quantity');
+
+            //決済実行時に商品の在庫が足りなかった場合はカートの中身画面に画面をもどす。
+            if($product->pivot->quantity > $quantity){
+                //redirectすることで以前入力されていた値を画面に表示することができる。
+                return redirect()->route('user.cart.index');
+            }
             $lineItem = [
                 'name' => $product->name,
                 'description' => $product->information,
@@ -63,7 +72,19 @@ class CartController extends Controller
             ];
 
             array_push($lineItems, $lineItem);
+
+
         }
+
+        foreach($products as $product){
+            Stock::create([
+                'product_id' => $product->id,
+                'type' => \Consts::PRODUCT_LIST['reduce'],
+                'quantity' => $product->pivot->quantity * -1,
+            ]);
+        }
+
+        dd('test');
 
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
