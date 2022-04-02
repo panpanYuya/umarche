@@ -12,6 +12,19 @@ class ItemController extends Controller{
 
     public function __construct(){
         $this->middleware('auth:users');
+        $this->middleware(function ($request, $next) {
+            //route(show/{item})のitemを下記で取得している
+            $id = $request->route()->parameter("item"); //文字列として取得している。
+            if (!is_null($id)) {
+                //existにしている理由はidが存在している場合はtrueが帰ってくる
+                $itemId = Product::availableItems()->where('products.id', $id)->exists();
+                //itemIdが存在しているかどうかで判定を行っている。
+                if (!$itemId) {
+                    abort(404);
+                }
+            }
+            return $next($request);
+        });
     }
 
     public function index(){
