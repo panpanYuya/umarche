@@ -99,4 +99,45 @@ class Product extends Model
 
     }
 
+    public function scopeSortOrder($query, $sortOrder){
+         if($sortOrder === null || $sortOrder === \Consts::SORT_ORDER['recommend']){
+            return $query->orderBy('sort_order', 'asc') ;
+        }
+        if($sortOrder === \Consts::SORT_ORDER['higherPrice']){
+            return $query->orderBy('price', 'desc') ;
+        }
+        if($sortOrder === \Consts::SORT_ORDER['lowerPrice']){
+            return $query->orderBy('price', 'asc') ;
+        }
+        if($sortOrder === \Consts::SORT_ORDER['later']){
+            return $query->orderBy('products.created_at', 'desc') ;
+        }
+        if($sortOrder === \Consts::SORT_ORDER['older']){
+            return $query->orderBy('products.created_at', 'asc') ;
+        }
+    }
+
+    public function scopeSelectCategory($query, $categoryId){
+        if($categoryId !== '0'){
+            return $query->where('secondary_category_id', $categoryId);
+        } else {
+            return ;
+        }
+    }
+
+    public function scopeSearchKeyword($query, $keyword){
+        if(!is_null($keyword)){
+            $spaceConvert = mb_convertkana($keyword, 's');
+            //正規表現で全角の空白を半角の空白にする
+            $keywords = preg_split('/[\s]+/', $spaceConvert, -1, PREG_SPLIT_NO_EMPTY);
+            foreach($keywords as $word){
+                //where句は曖昧検索をしているlikeと%
+                $query->where('products.name', 'like','%'.$word.'%');
+            }
+            return $query;
+        } else {
+            return;
+        }
+    }
+
 }
