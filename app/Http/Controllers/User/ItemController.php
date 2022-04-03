@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendThanksMail;
 use App\Models\Product;
 use App\Models\Stock;
 use Illuminate\Support\Facades\DB;
@@ -32,8 +33,13 @@ class ItemController extends Controller{
 
     public function index(Request $request){
 
-        Mail::to('test@example.com')
-        ->send(new TestMail());
+
+        //メール送信を同期的に行い、return viewの処理が行われる前にメール送信を行う処理
+        // Mail::to('test@example.com')
+        //     ->send(new TestMail());
+
+        //非同期処理でメール送信を行う。viewに戻る処理を行う前に実行する機能
+        SendThanksMail::dispatch();
 
         $categories = PrimaryCategory::with('secondary')->get();
 
