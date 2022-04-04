@@ -39,7 +39,7 @@ class ItemController extends Controller{
         //     ->send(new TestMail());
 
         //非同期処理でメール送信を行う。viewに戻る処理を行う前に実行する機能
-        SendThanksMail::dispatch();
+        // SendThanksMail::dispatch();
 
         $categories = PrimaryCategory::with('secondary')->get();
 
